@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -8,7 +6,7 @@ User = get_user_model()
 
 class Group(models.Model):
     title = models.TextField()
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField()
 
     def __str__(self):
@@ -21,11 +19,12 @@ class Post(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
+        related_name='posts'
     )
     group = models.ForeignKey(
         Group,
         blank=True,
         null=False,
         on_delete=models.CASCADE,
+        related_name='posts'
     )
